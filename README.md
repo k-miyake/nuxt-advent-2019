@@ -1,6 +1,6 @@
 # nuxt-advent-2019
 
-> My stupendous Nuxt.js project
+> My astounding Nuxt.js project
 
 ## Build Setup
 
