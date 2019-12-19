@@ -45,6 +45,7 @@ steps:
     appType: 'webAppLinux'
     appName: 'nuxt-ci'
     deployToSlotOrASE: true
+    startupCommand: 'npm run start'
     slotName: staging
     package: '$(Pipeline.Workspace)/**/$(Build.BuildNumber).zip'
   displayName: 'Deploy to Web App (Linux)'
