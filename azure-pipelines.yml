@@ -22,12 +22,13 @@ steps:
       server/**/*
       nuxt.config.js
       package*.json
+      node_modules/**/*
     TargetFolder: 'publish'
 
-- script: |
-    npm ci --production
-  workingDirectory: 'publish'
-  displayName: 'npm install for production'
+# - script: |
+#    npm ci --production
+#  workingDirectory: 'publish'
+#  displayName: 'npm install for production'
 
 - task: ArchiveFiles@2
   inputs:
