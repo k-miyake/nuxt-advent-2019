@@ -1,0 +1,50 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install
+    npm run build
+  displayName: 'npm install and build'
+
+- task: CopyFiles@2
+  inputs:
+    Contents: |
+      .nuxt/**/*
+      server/**/*
+      nuxt.config.js
+      package*.json
+    TargetFolder: 'publish'
+
+- script: |
+    npm ci --production
+  workingDirectory: 'publish'
+  displayName: 'npm install for production'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: 'publish'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.BuildNumber).zip'
+
+- publish: $(Build.BuildNumber).zip
+  artifact: packed
+
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'nuxt-ci'
+    appType: 'webAppLinux'
+    appName: 'nuxt-ci'
+    deployToSlotOrASE: true
+    slotName: staging
+    package: '$(Pipeline.Workspace)/**/$(Build.BuildNumber).zip'
+  displayName: 'Deploy to Web App (Linux)'
