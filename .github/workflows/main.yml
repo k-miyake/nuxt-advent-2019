@@ -23,16 +23,13 @@ jobs:
         # deploy to Azure Web App.
         npm install
         npm run build
-    - name: archive publish files
+    - name: archive files
+      run: zip -qq publish.zip .nuxt/**/* server/**/* nuxt.config.js package*.json
+    - name: upload publish files
       uses: actions/upload-artifact@v1
       with:
         name: publish
-        path: |
-          .nuxt
-          server
-          nuxt.config.js
-          package*.json
-          node_modules
+        path: publish.zip
     #- name: 'Deploy to Azure WebApp'
     #  uses: azure/webapps-deploy@v1
     #  with: 
