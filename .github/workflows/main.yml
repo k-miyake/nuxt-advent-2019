@@ -8,8 +8,8 @@ env:
   NODE_VERSION: '10.x'
   
 jobs:
-  build-and-deploy:
-    name: Build and Deploy
+  build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
@@ -25,7 +25,6 @@ jobs:
         npm run build
     - name: archive publish files
       uses: actions/upload-artifact@v1
-      if: failure()
       with:
         name: publish
         path: |
@@ -34,6 +33,15 @@ jobs:
           nuxt.config.js
           package*.json
 
+  deploy:
+    name: Deploy to Azure
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: publish
     #- name: 'Deploy to Azure WebApp'
     #  uses: azure/webapps-deploy@v1
     #  with: 
