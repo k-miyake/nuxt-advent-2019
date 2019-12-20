@@ -21,7 +21,7 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
 
-    - name: npm install, build, and test
+    - name: npm install, build
       run: |
         # Build and test the project, then
         # deploy to Azure Web App.
@@ -29,7 +29,7 @@ jobs:
         npm run build
 
     - name: archive files
-      run: zip -qq publish.zip .nuxt/**/* server/**/* nuxt.config.js package*.json node_modules/**/*
+      run: zip -r publish.zip .nuxt server nuxt.config.js package*.json node_modules
 
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v1
