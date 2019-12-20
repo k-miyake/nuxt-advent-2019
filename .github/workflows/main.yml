@@ -27,11 +27,11 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: publish
-        path: |
-          '.nuxt/**/*'
-          'server/**/*'
-          'nuxt.config.js'
-          'package*.json'
+        path: .nuxt/
+          # .nuxt/**/*
+          # server/**/*
+          # nuxt.config.js
+          # package*.json
 
   deploy:
     name: Deploy to Azure
