@@ -3,8 +3,6 @@ name: CI
 on: [push]
 
 env:
-  AZURE_WEBAPP_NAME: your-app-name
-  AZURE_WEBAPP_PACKAGE_PATH: '.'
   NODE_VERSION: '10.x'
   
 jobs:
@@ -13,24 +11,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
+
     - uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+
     - name: Use Node.js ${{ env.NODE_VERSION }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ env.NODE_VERSION }}
+
     - name: npm install, build, and test
       run: |
         # Build and test the project, then
         # deploy to Azure Web App.
         npm install
         npm run build
+
     - name: archive files
       run: zip -qq publish.zip .nuxt/**/* server/**/* nuxt.config.js package*.json node_modules/**/*
-    #- name: 'Deploy to Azure WebApp'
-    #  uses: azure/webapps-deploy@v1
-    #  with: 
-    #    app-name: ${{ env.AZURE_WEBAPP_NAME }}
-    #    publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-    #    package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+
+    - name: 'Deploy to Azure WebApp'
+      uses: azure/webapps-deploy@v1
+      with: 
+        app-name: 'nuxt-ci'
+        package: 'publish.zip'
