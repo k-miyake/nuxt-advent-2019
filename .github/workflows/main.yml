@@ -28,10 +28,10 @@ jobs:
       with:
         name: publish
         path: |
-          .nuxt/**/*
-          server/**/*
-          nuxt.config.js
-          package*.json
+          '.nuxt/**/*'
+          'server/**/*'
+          'nuxt.config.js'
+          'package*.json'
 
   deploy:
     name: Deploy to Azure
