@@ -23,13 +23,11 @@ jobs:
 
     - name: npm install, build
       run: |
-        # Build and test the project, then
-        # deploy to Azure Web App.
         npm install
         npm run build
 
     - name: archive files
-      run: zip -r publish.zip .nuxt server nuxt.config.js package*.json node_modules
+      run: zip -r publish.zip  node_modules .nuxt server nuxt.config.js package*.json
 
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v1
