@@ -27,11 +27,7 @@ jobs:
       if: failure()
       with:
         name: publish
-        path: |
-          .nuxt/**/*
-          server/**/*
-          nuxt.config.js
-          package*.json
+        path: .nuxt/**/*
 
     #- name: 'Deploy to Azure WebApp'
     #  uses: azure/webapps-deploy@v1
