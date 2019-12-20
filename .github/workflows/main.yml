@@ -33,4 +33,5 @@ jobs:
       uses: azure/webapps-deploy@v1
       with: 
         app-name: 'nuxt-ci'
+        slot-name: 'gh'
         package: 'publish.zip'
