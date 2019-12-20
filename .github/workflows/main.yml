@@ -13,6 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: Use Node.js ${{ env.NODE_VERSION }}
       uses: actions/setup-node@v1
       with:
@@ -24,12 +27,7 @@ jobs:
         npm install
         npm run build
     - name: archive files
-      run: zip -qq publish.zip .nuxt/**/* server/**/* nuxt.config.js package*.json
-    - name: upload publish files
-      uses: actions/upload-artifact@v1
-      with:
-        name: publish
-        path: publish.zip
+      run: zip -qq publish.zip .nuxt/**/* server/**/* nuxt.config.js package*.json node_modules/**/*
     #- name: 'Deploy to Azure WebApp'
     #  uses: azure/webapps-deploy@v1
     #  with: 
