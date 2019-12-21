@@ -22,14 +22,19 @@ jobs:
         npm install
         npm run build
 
-    - name: archive publish files
-      run: zip -r publish.zip node_modules .nuxt server static nuxt.config.js package.json
+    # - name: archive publish files
+    #   run: zip -r publish.zip node_modules .nuxt server static nuxt.config.js package.json
+
+    - name: copy publish files
+      run: |
+        mkdir publish
+        cp -r .nuxt server static node_modules nuxt.config.js package.json publish/
 
     - name: Upload publish files
       uses: actions/upload-artifact@v1
       with:
         name: artifact
-        path: publish.zip
+        path: publish
 
   deploy:
     name: Deploy
@@ -44,10 +49,10 @@ jobs:
     - uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-        
+
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v1
       with: 
         app-name: 'nuxt-ci'
         slot-name: 'gh'
-        package: 'artifact/publish.zip'
+        package: 'artifact/publish'
