@@ -19,7 +19,7 @@ jobs:
 
     - name: npm install, build
       run: |
-        npm install
+        npm ci
         npm run build
 
     - name: copy publish files
@@ -42,9 +42,6 @@ jobs:
       uses: actions/download-artifact@v1
       with:
         name: artifact
-    
-    - name: restore publish files
-      run: mv artifact/* ./
 
     - name: Use Node.js ${{ env.NODE_VERSION }}
       uses: actions/setup-node@v1
@@ -52,7 +49,9 @@ jobs:
         node-version: ${{ env.NODE_VERSION }}
 
     - name: npm ci for production
-      run: npm ci #--production
+      run: |
+        cd artifact
+        npm ci --production
 
     - uses: azure/login@v1
       with:
@@ -63,4 +62,4 @@ jobs:
       with: 
         app-name: 'nuxt-ci'
         slot-name: 'gh'
-        package: '.'
+        package: 'artifact'
