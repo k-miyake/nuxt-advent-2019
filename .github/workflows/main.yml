@@ -26,12 +26,12 @@ jobs:
         npm install
         npm run build
 
-    - name: archive publish files
-      run: zip -r publish.zip node_modules .nuxt server nuxt.config.js package.json
+    # - name: archive publish files
+    #  run: zip -r publish.zip node_modules .nuxt server nuxt.config.js package.json
 
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v1
       with: 
         app-name: 'nuxt-ci'
         slot-name: 'gh'
-        package: 'publish.zip'
+        package: '.'

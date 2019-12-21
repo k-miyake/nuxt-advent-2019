@@ -1,6 +1,6 @@
 module.exports = {
   mode: 'universal',
-  srcDir: 'src/',
+  srcDir: 'client/',
   /*
    ** Headers of the page
    */
