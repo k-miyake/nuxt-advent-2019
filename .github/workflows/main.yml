@@ -22,9 +22,6 @@ jobs:
         npm install
         npm run build
 
-    # - name: archive publish files
-    #   run: zip -r publish.zip node_modules .nuxt server static nuxt.config.js package.json
-
     - name: copy publish files
       run: |
         mkdir publish
@@ -47,8 +44,7 @@ jobs:
         name: artifact
     
     - name: restore publish files
-      run: |
-        mv artifact/* ./
+      run: mv artifact/* ./
 
     - name: Use Node.js ${{ env.NODE_VERSION }}
       uses: actions/setup-node@v1
@@ -56,8 +52,7 @@ jobs:
         node-version: ${{ env.NODE_VERSION }}
 
     - name: npm ci for production
-      run: |
-        npm ci --production
+      run: npm ci #--production
 
     - uses: azure/login@v1
       with:
